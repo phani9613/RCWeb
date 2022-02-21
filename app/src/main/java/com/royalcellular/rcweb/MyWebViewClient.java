@@ -12,7 +12,7 @@ public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request
         String hostname;
 
         // YOUR HOSTNAME
-        hostname = "https://www.google.com/";
+        hostname = "http://royalcellular.in";
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(hostname));
         view.getContext().startActivity(intent);
