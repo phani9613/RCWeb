@@ -24,11 +24,19 @@ import android.webkit.WebViewClient;
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
+                Intent webViewIntent = getIntent();
+                String url = "http://royalcellular.in/";
                 mWebView = findViewById(R.id.activity_main_webview);
+
+                mWebView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        return false;
+                    }
+                });
                 WebSettings webSettings = mWebView.getSettings();
                 webSettings.setJavaScriptEnabled(true);
-                mWebView.setWebViewClient(new MyWebViewClient());
-
+                mWebView.loadUrl(url);
 
             }
 
