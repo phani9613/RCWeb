@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
                 Intent webViewIntent = getIntent();
-                String url = "http://freshclearmajesticstars.neverssl.com/";
+                String url = "http://royalcellular.in/";
                 mWebView = findViewById(R.id.activity_main_webview);
 
                 mWebView.setWebViewClient(new WebViewClient() {

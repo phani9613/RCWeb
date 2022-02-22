@@ -7,6 +7,6 @@
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">http://freshclearmajesticstars.neverssl.com/</domain>
+        <domain includeSubdomains="true">http://royalcellular.in/</domain>
     </domain-config>
 </network-security-config>
