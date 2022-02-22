@@ -25,9 +25,12 @@ import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
     /*-- MAIN VARIABLES --*/
     WebView webView;
+    ProgressBar pBar;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -127,7 +131,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        pBar=(ProgressBar)findViewById(R.id.progressBar);
         webView = (WebView) findViewById(R.id.os_view);
         assert webView != null;
         WebSettings webSettings = webView.getSettings();
@@ -147,6 +151,7 @@ public class MainActivity extends AppCompatActivity{
         }
         webView.setWebViewClient(new Callback());
         webView.loadUrl(webview_url);
+        final Activity activity = this;
         webView.setWebChromeClient(new WebChromeClient() {
    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
 
@@ -251,7 +256,11 @@ public class MainActivity extends AppCompatActivity{
                     return false;
                 }
             }
-
+            public void onProgressChanged(WebView view, int progress) {
+                // Activities and WebViews measure progress with different scales.
+                // The progress meter will automatically disappear when we reach 100%
+                activity.setProgress(progress * 100);
+            }
         });
         this.browserSettings();
 
@@ -266,20 +275,27 @@ public class MainActivity extends AppCompatActivity{
                 webView.loadUrl(JavaScriptInterface.getBase64StringFromBlobUrl(url));
             }
         });
-        webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setDatabaseEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.addJavascriptInterface(new JavaScriptInterface(getBaseContext()), "Android");
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
-
     /*-- callback reporting if error occurs --*/
     public class Callback extends WebViewClient{
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+            webView.loadUrl("file:///android_asset/404.html");
             Toast.makeText(getApplicationContext(), "Failed loading app!", Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            pBar.setVisibility(View.VISIBLE);
+            super.onPageStarted(view, url, favicon);
+        }
+        @Override
+        public void onPageFinished(final WebView view, String url) {
+            pBar.setVisibility(View.GONE);
+            super.onPageFinished(view, url);
         }
     }
 
