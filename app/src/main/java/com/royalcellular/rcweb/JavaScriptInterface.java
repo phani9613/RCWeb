@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Base64;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import java.util.Date;
 
 public class JavaScriptInterface {
     private Context context;
+    private static final String TAG = "JavaScriptInterface";
     public JavaScriptInterface(Context context) {
         this.context = context;
     }
@@ -35,6 +37,7 @@ public class JavaScriptInterface {
     }
     public static String getBase64StringFromBlobUrl(String blobUrl) {
         if(blobUrl.startsWith("blob")){
+
             return "javascript: var xhr = new XMLHttpRequest();" +
                     "xhr.open('GET', '"+ blobUrl +"', true);" +
                     "xhr.setRequestHeader('Content-type','text/csv;charset=utf-8;');" +
@@ -58,8 +61,10 @@ public class JavaScriptInterface {
         final int notificationId = 1;
         String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
         final File dwldsPath = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS) + "/YourFileName_" + currentDateTime + "_.pdf");
-        byte[] pdfAsBytes = Base64.decode(base64PDf.replaceFirst("^data:application/pdf;base64,", ""), 0);
+                Environment.DIRECTORY_DOWNLOADS) + "/RoyalCellular_Stock_" + currentDateTime + "_.csv");
+
+        Log.i(TAG, base64PDf);
+        byte[] pdfAsBytes = Base64.decode(base64PDf.replaceFirst("^data:text/csv;base64,", ""), 0);
         FileOutputStream os;
         os = new FileOutputStream(dwldsPath, false);
         os.write(pdfAsBytes);

@@ -38,11 +38,10 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity{
 
-    /*-- CUSTOMIZE --*/
-    /*-- you can customize these options for your convenience --*/
-    private static String webview_url   = "http://192.168.0.102:4200/";    // web address or local file location you want to open in webview
-    private static String file_type     = "*/*";    // file types to be allowed for upload
-    private boolean multiple_files      = true;         // allowing multiple file upload
+
+    private static String webview_url   = "http://royalcellular.in/";
+    private static String file_type     = "*/*";
+    private boolean multiple_files      = true;
 
     /*-- MAIN VARIABLES --*/
     WebView webView;
@@ -138,19 +137,6 @@ public class MainActivity extends AppCompatActivity{
         webSettings.setMediaPlaybackRequiresUserGesture(false);
         webSettings.setAllowFileAccess(true);
 
-        webView.setDownloadListener(new DownloadListener() {
-
-            @Override
-            public void onDownloadStart(String url, String userAgent,
-                                        String contentDisposition, String mimetype,
-                                        long contentLength) {
-                webView.loadUrl(JavaScriptInterface.getBase64StringFromBlobUrl(url));
-
-                Toast.makeText(getApplicationContext(), "Downloading File", //To notify the Client that the file is being downloaded
-                        Toast.LENGTH_LONG).show();
-
-            }
-        });
 
 
         if(Build.VERSION.SDK_INT >= 21){
@@ -265,8 +251,29 @@ public class MainActivity extends AppCompatActivity{
                     return false;
                 }
             }
-        });
 
+        });
+        this.browserSettings();
+
+
+
+    }
+    private void browserSettings() {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                webView.loadUrl(JavaScriptInterface.getBase64StringFromBlobUrl(url));
+            }
+        });
+        webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setDatabaseEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.addJavascriptInterface(new JavaScriptInterface(getBaseContext()), "Android");
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
     /*-- callback reporting if error occurs --*/
