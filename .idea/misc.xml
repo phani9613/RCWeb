@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/phani/AndroidStudioProjects/RCWeb/app/src/main/res/drawable/rc_logo_background.xml" value="0.1" />
         <entry key="..\:/Users/phani/AndroidStudioProjects/RCWeb/app/src/main/res/layout/activity_main.xml" value="0.1453804347826087" />
+        <entry key="..\:/Users/phani/AndroidStudioProjects/RCWeb/app/src/main/res/mipmap-anydpi-v26/rc_logo_round.xml" value="0.1" />
       </map>
     </option>
   </component>
