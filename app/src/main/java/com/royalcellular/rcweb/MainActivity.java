@@ -43,8 +43,11 @@ public class MainActivity extends AppCompatActivity{
 
 
     private static String webview_url   = "http://royalcellular.in/";
+            //"http://192.168.0.100:4200/";
     private static String file_type     = "*/*";
     private boolean multiple_files      = true;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MANAGE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
     /*-- MAIN VARIABLES --*/
     WebView webView;
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        verifyStoragePermissions(this);
         setContentView(R.layout.activity_main);
         pBar=(ProgressBar)findViewById(R.id.progressBar);
         webView = (WebView) findViewById(R.id.os_view);
@@ -345,5 +349,15 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
+    }
+    // verifying if storage permission is given or not
+    public static void verifyStoragePermissions(Activity activity) {
+
+        int permissions = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        // If storage permission is not given then request for External Storage Permission
+        if (permissions != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
+        }
     }
 }

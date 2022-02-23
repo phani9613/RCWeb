@@ -61,7 +61,7 @@ public class JavaScriptInterface {
         final int notificationId = 1;
         String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
         final File dwldsPath = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS) + "/RoyalCellular_Stock_" + currentDateTime + "_.csv");
+                Environment.DIRECTORY_DOWNLOADS) + "/RoyalCellular_Stock.csv");
 
         Log.i(TAG, base64PDf);
         byte[] pdfAsBytes = Base64.decode(base64PDf.replaceFirst("^data:text/csv;base64,", ""), 0);
@@ -74,7 +74,7 @@ public class JavaScriptInterface {
             Intent intent = new Intent();
             intent.setAction(android.content.Intent.ACTION_VIEW);
             Uri apkURI = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", dwldsPath);
-            intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf"));
+            intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("csv"));
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             PendingIntent pendingIntent = PendingIntent.getActivity(context,1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             String CHANNEL_ID = "MYCHANNEL";
@@ -83,8 +83,8 @@ public class JavaScriptInterface {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 NotificationChannel notificationChannel= new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_LOW);
                 Notification notification = new Notification.Builder(context,CHANNEL_ID)
-                        .setContentText("You have got something new!")
-                        .setContentTitle("File downloaded")
+                        .setContentText("Your export file is downloaded")
+                        .setContentTitle("Please open Downloads folder")
                         .setContentIntent(pendingIntent)
                         .setChannelId(CHANNEL_ID)
                         .setSmallIcon(android.R.drawable.sym_action_chat)
@@ -115,6 +115,6 @@ public class JavaScriptInterface {
                 }
             }
         }
-        Toast.makeText(context, "PDF FILE DOWNLOADED!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "FILE DOWNLOADED!", Toast.LENGTH_SHORT).show();
     }
 }

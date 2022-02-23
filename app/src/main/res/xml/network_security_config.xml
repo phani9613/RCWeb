@@ -7,6 +7,7 @@
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
+<!--        <domain includeSubdomains="true">http://192.168.0.100:4200/</domain>-->
         <domain includeSubdomains="true">http://royalcellular.in/</domain>
     </domain-config>
 </network-security-config>
