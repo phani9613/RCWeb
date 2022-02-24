@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Base64;
@@ -60,9 +61,13 @@ public class JavaScriptInterface {
     private void convertBase64StringToPdfAndStoreIt(String base64PDf) throws IOException {
         final int notificationId = 1;
         String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
-        final File dwldsPath = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS) + "/RoyalCellular_Stock.csv");
-
+         File dwldsPath=null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            dwldsPath= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/RoyalCellular_Stock.csv");
+        }
+        else{
+            dwldsPath= new File(Environment.getExternalStorageDirectory() + "/RoyalCellular_Stock.csv");
+        }
         Log.i(TAG, base64PDf);
         byte[] pdfAsBytes = Base64.decode(base64PDf.replaceFirst("^data:text/csv;base64,", ""), 0);
         FileOutputStream os;
