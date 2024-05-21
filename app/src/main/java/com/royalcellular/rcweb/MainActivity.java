@@ -42,7 +42,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity{
 
 
-    private static String webview_url   = "http://192.168.0.100:4200/";//"http://royalcellular.in/";
+    private static String webview_url   = "http://royalcellular.in/";
             //"http://192.168.0.100:4200/";
     private static String file_type     = "*/*";
     private boolean multiple_files      = true;
